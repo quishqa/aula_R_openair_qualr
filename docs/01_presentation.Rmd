@@ -19,8 +19,8 @@ knitr::opts_chunk$set(echo = FALSE)
 - `packages`everywhere
 - **`openair`**
 - Dados atmosféricos:
-  - `qualR`
-  - `jano_package`
+  - **`qualR`**
+  - **`riem`**
 
 ## Por que R?
 ::: columns
@@ -42,7 +42,12 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Minhas espectativas
 
 - Para os que já conhecem R:
-  - Fazer um reforço e talvez mostrar novidades
+  - Fazer um reforço e mostrar novidades
 - Para os novos:
   - Apresentar uma nova ferramenta muito útil
 - ~~Que esqueçam de usar Excel~~
+
+## Contato
+
+- mario.calderon\@iag.usp.br
+- https://github.com/quishqa
