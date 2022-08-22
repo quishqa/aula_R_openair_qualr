@@ -1,0 +1,48 @@
+---
+title: "Introdução R and openair"
+author: "Mario Gavidia-Calderón"
+date: '2022-08-25'
+output: 
+  beamer_presentation:
+    theme: "Dresden"
+    colortheme: "seagull"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## O cardápio
+
+- Por que R? 
+- The theoretical minimum R
+- `packages`everywhere
+- **`openair`**
+- Dados atmosféricos:
+  - `qualR`
+  - `jano_package`
+
+## Por que R?
+::: columns
+
+:::: column
+- Por que não seguir com meu Excel?
+- R é _open source_ (é gratis!)
+- R trabalha com diferentes tipos de dados (até mp3!)
+- R facilita a _reproducibilidade da ciência!_
+- R é legal!
+::::
+
+:::: column
+![R logo](figures/Rlogo.png){ width=50% }
+::::
+
+:::
+
+## Minhas espectativas
+
+- Para os que já conhecem R:
+  - Fazer um reforço e talvez mostrar novidades
+- Para os novos:
+  - Apresentar uma nova ferramenta muito útil
+- ~~Que esqueçam de usar Excel~~
