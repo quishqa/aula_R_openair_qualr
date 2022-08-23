@@ -1,16 +1,26 @@
 ---
-title: "Introdução R and openair"
+title: "Introdução a R e openair"
 author: "Mario Gavidia-Calderón"
 date: '2022-08-25'
-output: 
+header-includes:
+  - \titlegraphic{\includegraphics[width = 2.5cm]{figures/Rlogo.png}}
+output:
   beamer_presentation:
+    latex_engine: xelatex
     theme: "Dresden"
     colortheme: "seagull"
+    # incremental: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+## Antes de começar:
+
+- Desculpem o _portunhol_ `r emo::ji("ask")`.
+- Muitos dos exemplos serão focados na **poluição do ar**.
+- Paciência com a [**Lei de Murphy**](https://pt.wikipedia.org/wiki/Lei_de_Murphy).
 
 ## O cardápio
 
@@ -19,8 +29,8 @@ knitr::opts_chunk$set(echo = FALSE)
 - `packages`everywhere
 - **`openair`**
 - Dados atmosféricos:
-  - **`qualR`**
-  - **`riem`**
+  + **`qualR`**
+  + **`riem`**
 
 ## Por que R?
 ::: columns
@@ -42,9 +52,11 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Minhas espectativas
 
 - Para os que já conhecem R:
-  - Fazer um reforço e mostrar novidades
+  + Fazer um reforço e mostrar novidades
 - Para os novos:
-  - Apresentar uma nova ferramenta muito útil
+  + Apresentar uma nova ferramenta muito útil
+- Para todos:
+  + Apresentar recursos legais do R
 - ~~Que esqueçam de usar Excel~~
 
 ## Contato
