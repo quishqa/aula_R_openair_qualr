@@ -44,7 +44,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ::::
 
 :::: column
-![R logo](figures/Rlogo.png){ width=50% }
+![](figures/Rlogo.png){ width=50% }
 ::::
 
 :::

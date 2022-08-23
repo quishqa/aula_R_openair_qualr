@@ -1,0 +1,287 @@
+---
+title: "Minha primeira aula do `openair`"
+author:
+- Mario Gavidia-Calderón \newline
+- Rafaela Squizzato \newline
+- Alejandro Delgado
+date: "7/12/2021"
+output:
+  beamer_presentation:
+    theme: "Dresden"
+    fonttheme: "structurebold"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## O cardápio
+1. Do Excel para o R
+2. **Lembre da data: `as.POSIXct()`**
+3. Figuras legais:
+    * `summaryPlot()`
+    * `timePlot()`
+    * `windRose()`
+    * `PollutionRose()`
+    * `timevariation()`
+4. Funções para alegrar a vida:
+    * `timeAverage`
+    * `selectByDate`
+    * `splitByDate`
+
+## Do Excel para o R
+- Existe o pacote **`readxl`** para ler os `.xls` dentro do R.
+- Eu não recomendo >:(
+- **Melhor salvar o arquivo como `.csv` e ler o `.csv` no R. :) **
+- Aproveitar para trocar nomes das columnas:
+  - tc > T (ºC)
+  - rh > Umidade relativa (%)
+- Serve para Excel, Google Sheet, Libre Office, etc
+
+## Do Excel para o R
+- Exemplo com dados de Southport - Australia.
+- Dados de [**openaq.org**](www.openaq.org)
+- Procesados para nosso curso.
+  - Maior informação em `02_preparing_example.R`
+
+## Do Excel para o R
+
+```{r , echo=TRUE}
+au <- read.csv("../03_output/au_df_example.csv",
+               sep = ",", dec = ".", header = T,
+               na.strings = -9999)
+head(au, 5)
+```
+
+## Lembre da data: `as.POSIXct()`
+```{r, echo=TRUE}
+str(au)
+```
+
+## Lembre da data: `as.POSIXct()`
+- Temos que dizer para o R que a coluna `date` não é `chr` senão dado de data
+- **Dica: `openair` sempre vai procurar a coluna `date`**
+```{r, echo=TRUE}
+au$date <- as.POSIXct(
+  strptime(au$date, 
+           format = "%Y-%m-%dT%H:%M:%S+10:00"),
+  tz = "Etc/GMT+10"
+  )
+```
+
+## Lembre da data: `as.POSIXct()`
+
+Agora sim, já podemos usar `openair`
+```{r, echo=TRUE}
+str(au)
+```
+
+## `summaryPlot()`
+```{r, echo=T,  message=F, warning=F, fig.height=3, fig.width=5}
+library(openair)
+summaryPlot(au)
+```
+
+## `summaryPlot()`
+```{r, echo=T,  message=F, warning=F, fig.height=3, fig.width=5}
+library(openair)
+au$o3 <- au$o3 * 1000
+summaryPlot(au, period="months")
+```
+
+## `TimePlot()`
+```{r, echo=T, message=F, warning=F, fig.height=3, fig.width=5}
+timePlot(au, pollutant="pm10")
+```
+
+## `TimePlot()`
+```{r, echo=T, message=F, warning=F, fig.height=3, fig.width=5}
+timePlot(au, pollutant=c("pm10", "pm25", "o3"))
+```
+
+## Um parentesis
+Melhor usar dados de São Paulo
+
+## Um parentesis
+Lendo dados de Ibirapuera 30 anos
+```{r, echo=T}
+ibi <- readRDS("../02_data/ibi_30_year_df.RDS")
+```
+
+## `summaryPlot()`
+```{r, echo=T, message=F, warning=F, fig.height=3, fig.width=5}
+summaryPlot(ibi)
+```
+
+
+## `timePlot()`
+```{r, echo=T, fig.height=3, fig.width=5}
+timePlot(ibi, pol = "o3")
+```
+
+## `timePlot()`
+```{r, echo=T, fig.height=3, fig.width=5}
+timePlot(ibi, pol = "o3", avg.time = "month")
+```
+
+## `timePlot()`
+```{r, echo=T, fig.height=3, fig.width=5}
+timePlot(ibi, pol = c("pm10", "pm25"), avg.time = "day")
+```
+
+## `timeVariation()`
+```{r, echo=T, fig.height=5, fig.width=8}
+timeVariation(ibi, pol = "o3")
+```
+
+
+## `WindRose`
+```{r, echo=T, eval=FALSE}
+library(qualR)
+
+params <- c("MP10", "MP2.5", "NOx", "VV", "DV")
+pin <- CetesbRetrieveParam(Sys.getenv("QUALAR_USER"),
+                           Sys.getenv("QUALAR_PASS"),
+                           params,
+                           "Pinheiros",
+                           "01/01/2020",
+                           "31/12/2020")
+
+saveRDS(pin, file="../02_data/pin_pol_with_wind.Rds")
+```
+
+## `windRose()`
+```{r, echo=T, fig.height=3, fig.width=3, warning=F}
+pin <- readRDS("../02_data/pin_pol_with_wind.Rds")
+wr <- windRose(pin, ws="ws", wd="wd")
+```
+
+## `windRose()`
+```{r, echo=T, fig.height=4, fig.width=10, warning=F}
+windRose(pin, ws="ws", wd="wd", type = "month",
+               layout = c(6, 2))
+
+```
+
+## `polarPlot()`
+```{r, echo=T,  fig.height=3, fig.width=3, warning=F }
+pp <- polarPlot(pin, pollutant = "mp2.5")
+
+```
+
+## `percentileRose()`
+```{r, echo=T, fig.height=2.5, fig.width=2.5, warning=F}
+pr <- percentileRose(pin, pollutant = "mp2.5", percentile=75,
+                     method = "cpf", col = "blue", smooth = T)
+```
+
+## `polarAnnulus()
+```{r, echo=T, fig.height=2.5, fig.width=2.5, warning=F}
+pa <- polarAnnulus(pin, pollutant = "mp2.5", period="hour",
+                   exclude.missing=F)
+```
+
+## multiplots
+```{r, echo=T, fig.height=2.5, fig.height=7, warning=F}
+library(gridExtra)
+grid.arrange(wr$plot, pa$plot, pp$plot, pr$plot, 
+             nrow= 1, ncol = 4)
+```
+
+
+## `SelectByDate`
+```{r, echo=T, fig.height=3, fig.width=5}
+covid <- selectByDate(ibi,
+                      start="15/3/2020",
+                      end="28/3/2020")
+timePlot(covid, pol = "o3")
+```
+
+## `SelectByDate`
+```{r, echo=T, fig.height=3, fig.width=5}
+ibi19 <- selectByDate(ibi, year = 2019)
+timePlot(covid, pol = "pm25")
+```
+
+## `SelectByDate`
+```{r, echo=T}
+ibi19_weekday <- selectByDate(ibi19, day="weekday")
+ibi19_weekend <- selectByDate(ibi19, day="weekend")
+mean(ibi19_weekday$o3, na.rm = T)
+mean(ibi19_weekend$o3, na.rm = T)
+
+```
+
+## `SelectByDate`
+```{r, echo=T, eval=F}
+weekday_hour <- aggregate(ibi19_weekday["o3"],
+                          format(ibi19_weekday["date"], "%H"),
+                          mean, na.rm = TRUE)
+weekend_hour <- aggregate(ibi19_weekend["o3"], 
+                          format(ibi19_weekend["date"], "%H"),
+                          mean, na.rm = TRUE)
+
+plot(weekend_hour$date, weekend_hour$o3, t = "l", col="red",
+     ylim = c(0, 100), ylab = "O3 (ug/m3)",
+     xlab = "Hour")
+lines(weekday_hour$date, weekday_hour$o3, t = "l",
+      col = "blue")
+legend("topleft", legend=c("Weekday", "Weekend"), 
+       col=c("blue", "red"),
+       lty= c(1,1), bty="n")
+```
+
+
+## `SelectByDate`
+```{r, echo=F, fig.height=4 , fig.width=6}
+weekday_hour <- aggregate(ibi19_weekday["o3"], format(ibi19_weekday["date"], "%H"),
+                          mean, na.rm = TRUE)
+weekend_hour <- aggregate(ibi19_weekend["o3"], format(ibi19_weekend["date"], "%H"),
+                          mean, na.rm = TRUE)
+
+plot(weekend_hour$date, weekend_hour$o3, t = "l", col="red",
+     ylim = c(0, 100), ylab = "O3 (ug/m3)", xlab = "Hour")
+lines(weekday_hour$date, weekday_hour$o3, t = "l", col = "blue")
+legend("topleft", legend=c("Weekday", "Weekend"), col=c("blue", "red"),
+       lty= c(1,1), bty="n")
+```
+
+## `timeAverage`
+```{r, echo=T, fig.height=4, fig.width=5}
+# Média diaria
+ibi19_day <- timeAverage(ibi19, avg.time = "day")
+# Média mensal
+ibi19_month <- timeAverage(ibi19, avg.time = "month")
+# Média sasonal
+ibi19_season <- timeAverage(ibi19, avg.time = "season")
+```
+
+
+## `splitByDate`
+```{r, echo=T, fig.height=5, fig.width=8}
+ibi_cov <- splitByDate(ibi, dates = "1/3/2020",
+                       name = "situation",
+                       labels = c("Before COVID", "After COVID"))
+timeVariation(ibi_cov, pol = "o3", group = "situation")
+
+```
+
+
+
+## Exemplos mais legais
+- Esta presentação foi feita seguindo estes exemplos
+- [Exemplos SP](https://github.com/quishqa/qualR_tuto/blob/main/02_data/openair_exemplos_sp.html)
+
+
+
+## Maior informação
+- [`openair` github repository](https://github.com/davidcarslaw/openair)
+- [`openair` on-line book](https://bookdown.org/david_carslaw/openair/)
+- [`openair` paper](https://doi.org/10.1016/j.envsoft.2011.09.008)
+- [CBPF paper](https://doi.org/10.1016/j.envsoft.2014.05.002)
+
+## SOS 
+
+- mario.calderon@iag.usp.br 
+- rafaela.squizzato@iag.usp.br 
+- adelgado@iag.usp.br

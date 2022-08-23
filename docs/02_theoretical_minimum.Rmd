@@ -3,8 +3,6 @@ title: "Introdução a R e openair"
 subtitle: "The theoretical minimum"
 author: "Mario Gavidia-Calderón"
 date: "2022-08-25"
-header-includes:
-  - \titlegraphic{\includegraphics[width = 2.5cm]{figures/TMQM.jpg}}
 output: 
   beamer_presentation:
     latex_engine: xelatex
@@ -18,7 +16,18 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## The theoretical minimum
 
-_What you need to know to start doing R_: Sintáxis
+::: columns
+
+:::: column
+_What you need to know to start doing ~~Physics~~ R_
+::::
+
+:::: column
+![](figures/TMQM.jpg){ width=60% }
+::::
+
+:::
+
 
 ## R: Sintaxis
 
