@@ -1,5 +1,6 @@
 ---
-title: "Introdução a R e openair"
+title: "Introdução à linguagem de programação em R para tratamento de dados de qualidade do ar"
+subtitle: "Utilização dos pacotes `openair` e `qualR`"
 author: "Mario Gavidia-Calderón"
 date: '2022-08-25'
 header-includes:
@@ -18,9 +19,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Antes de começar:
 
-- Desculpem o _portunhol_ `r emo::ji("ask")`.
-- Muitos dos exemplos serão focados na **poluição do ar**.
+- Desculpem o (meu) _portunhol_.
 - Paciência com a [**Lei de Murphy**](https://pt.wikipedia.org/wiki/Lei_de_Murphy).
+
 
 ## O cardápio
 
@@ -40,7 +41,7 @@ knitr::opts_chunk$set(echo = FALSE)
 - R é _open source_ (é gratis!)
 - R trabalha com diferentes tipos de dados (até mp3!)
 - R facilita a _reproducibilidade da ciência!_
-- R é legal!
+- R é legal! :)
 ::::
 
 :::: column
@@ -55,8 +56,6 @@ knitr::opts_chunk$set(echo = FALSE)
   + Fazer um reforço e mostrar novidades
 - Para os novos:
   + Apresentar uma nova ferramenta muito útil
-- Para todos:
-  + Apresentar recursos legais do R
 - ~~Que esqueçam de usar Excel~~
 
 ## Contato

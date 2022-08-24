@@ -1,5 +1,5 @@
 ---
-title: "Introdução a R e openair"
+title: "Utilização dos pacotes `openair` e `qualR`"
 subtitle: "The theoretical minimum"
 author: "Mario Gavidia-Calderón"
 date: "2022-08-25"
@@ -173,8 +173,8 @@ ar
 ```{r , echo=TRUE}
 # Ou diretamente
 ar <- data.frame(gas = c("N2", "O2", "Ar", "CO2"),
-                   W = c(28, 32, 40, 12 + 2 * 16),
-                   per = c(78.08, 20.95, 0.9, 0.04))
+                 W = c(28, 32, 40, 12 + 2 * 16),
+                 per = c(78.08, 20.95, 0.9, 0.04))
 ar
 
 ```
@@ -286,3 +286,21 @@ str(tempk_chr)
 - Usar nomes mais simples:
    - **tempC** em vez de **Temperatura en (ºC)**
 - Para importar uma tabela no R usamos **`read.table()`**
+
+## Packages everywhere
+"All the easy problem have already been solve" \
+[(The Turing way)](https://the-turing-way.netlify.app/reproducible-research/open/open-source.html)
+
+## Packages everywhere
+"All the easy problem have already been solve (**by a package**)" 
+
+## Packages everywhere
+ - `raster`: Para trabalhar com dados tif e netcdfs.
+ - `sf`: Super pacote para trabalhar com dados espaciais (shapefiles).
+ - `ggplot2`: Para fazer plots legais.
+ - `openair`: Para trabalhar com dados de poluição do ar.
+ 
+## Packages everywhere
+ - Para instalar pacotes usamos a função **`install.packages("nome_do_pacote")`**
+ - É muito provável que já exista um pacote para o resolver o seu problema.
+
