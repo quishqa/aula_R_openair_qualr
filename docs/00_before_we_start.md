@@ -50,5 +50,24 @@ Se não é possível instalar o R nem RStudio, podemos utilizar a versão na nuv
 
 PS: Para fazer download do produzido no RStudio Cloud seguir [**este link**](https://community.rstudio.com/t/how-does-one-download-files-from-rstudio-cloud-onto-desktop/52132).
 
+## Pacotes que vamos utilizar
 
+Na aula vamos utilizar três pacotes:
+
+ - [**`openair`**](https://github.com/davidcarslaw/openair): pacote para analise de dados de qualidade do ar.
+ - [**`qualR`**](https://github.com/ropensci/qualR): pacote para baixar dados da rede CETESB. Precisa ter uma conta no sistema [QUALAR](https://seguranca.cetesb.sp.gov.br/Home/CadastrarUsuario).
+ - [**`riem`**](https://github.com/ropensci/riem): pacote para baixar dados METAR dos aeroportos.
+
+Para instalar pacotes no R usamos o commando: **`install.packages("nome_do_pacote")`**
+
+Então, no RStudio:
+
+- Vai para a consola (aquela janela ubicada no lado inferior esquerdo).
+- Escrever: `install.package("openair")`
+- Depois: `install.package("riem")`
+
+Para instalar `qualR`primeiro precisamos instalar o pacote `devtools`.
+
+- `install.package("devtools")`
+-  E uma vez instalado escrever: `devtools::install_github(ropensci/qualR)`
 
