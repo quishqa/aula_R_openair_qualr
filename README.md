@@ -13,3 +13,5 @@ para criálos.
 figuras.
 - Em `results` temos algumas figuras e datasets gerados utilizando `qualR`.
 
+Para os que conhecem `git` podem clonar este repositório.
+Também podem clickar o botão verde `Code` (está no lado esquerdo de 'About') e fazer download como `.zip`.
