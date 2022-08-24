@@ -1,0 +1,5 @@
+install.packages("rmarkdown")
+install.packages("tinytex")
+install.packages("devtools")
+install.packages("openair")
+devtools::install_github("ropensci/qualR")

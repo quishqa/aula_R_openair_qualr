@@ -1,9 +1,6 @@
 ---
-title: "Minha primeira aula do `openair`"
-author:
-- Mario Gavidia-Calderón \newline
-- Rafaela Squizzato \newline
-- Alejandro Delgado
+title: "Minha primeira aula do **`openair`**"
+author: "Mario Gavidia-Calderón"
 date: "7/12/2021"
 output:
   beamer_presentation:
@@ -283,5 +280,3 @@ timeVariation(ibi_cov, pol = "o3", group = "situation")
 ## SOS 
 
 - mario.calderon@iag.usp.br 
-- rafaela.squizzato@iag.usp.br 
-- adelgado@iag.usp.br
