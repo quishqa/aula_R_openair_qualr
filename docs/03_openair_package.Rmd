@@ -44,65 +44,86 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Do Excel para o R
 
 ```{r , echo=TRUE}
-au <- read.csv("../03_output/au_df_example.csv",
-               sep = ",", dec = ".", header = T,
-               na.strings = -9999)
+au <- read.table("../data/au_lytton_05_07_22.csv", 
+                 sep = ",", # Separador das colunas
+                 dec = ".", # Decimal
+                 header = T,
+                 na.string = -9999) # Se as colunas têm nome
 head(au, 5)
+```
+
+## Para filtrar usamos `subset()`
+
+- `df_subset <- **subset**(df, nome_colun == "valor")
+```{r, echo=TRUE}
+au_pm25 <- subset(au, parameter == "pm25")
+head(au_pm25)
+```
+
+## Para filtrar usamos `subset()`
+
+- `df_subset <- **subset**(df, nome_colun == "valor")
+```{r, echo=TRUE}
+au_pm25_high <- subset(au_pm25, value >= median(au_pm25$value, na.rm = T))
+head(au_pm25_high)
 ```
 
 ## Lembre da data: `as.POSIXct()`
 ```{r, echo=TRUE}
-str(au)
+str(au_pm25)
 ```
 
 ## Lembre da data: `as.POSIXct()`
 - Temos que dizer para o R que a coluna `date` não é `chr` senão dado de data
 - **Dica: `openair` sempre vai procurar a coluna `date`**
 ```{r, echo=TRUE}
-au$date <- as.POSIXct(
-  strptime(au$date, 
-           format = "%Y-%m-%dT%H:%M:%S+10:00"),
-  tz = "Etc/GMT+10"
-  )
+au_pm25$date <- as.POSIXct(
+  strptime(au_pm25$local,
+           format = "%Y-%m-%dT%H:%M:%S+10:00",
+           tz = "Etc/GMT+10")
+)
 ```
 
 ## Lembre da data: `as.POSIXct()`
 
 Agora sim, já podemos usar `openair`
 ```{r, echo=TRUE}
-str(au)
+str(au_pm25)
+```
+
+## Lembre da data: `as.POSIXct()`
+
+Porém vamos simplificar um pouco as coisas
+```{r, echo=TRUE}
+au_pm25_df <- au_pm25[c("date", "value")]
+names(au_pm25_df)[2]  <- "pm25"
 ```
 
 ## `summaryPlot()`
 ```{r, echo=T,  message=F, warning=F, fig.height=3, fig.width=5}
 library(openair)
-summaryPlot(au)
+summaryPlot(au_pm25_df)
 ```
 
 ## `summaryPlot()`
 ```{r, echo=T,  message=F, warning=F, fig.height=3, fig.width=5}
 library(openair)
-au$o3 <- au$o3 * 1000
-summaryPlot(au, period="months")
+summaryPlot(au_pm25_df, period = "months")
 ```
 
 ## `TimePlot()`
 ```{r, echo=T, message=F, warning=F, fig.height=3, fig.width=5}
-timePlot(au, pollutant="pm10")
-```
-
-## `TimePlot()`
-```{r, echo=T, message=F, warning=F, fig.height=3, fig.width=5}
-timePlot(au, pollutant=c("pm10", "pm25", "o3"))
+timePlot(au_pm25_df, pollutant = "pm25")
 ```
 
 ## Um parentesis
 Melhor usar dados de São Paulo
 
 ## Um parentesis
-Lendo dados de Ibirapuera 30 anos
+Lendo dados de Ibirapuera 2019 anos
 ```{r, echo=T}
-ibi <- readRDS("../02_data/ibi_30_year_df.RDS")
+ibi <- readRDS("../results/ibi_2019.rds")
+
 ```
 
 ## `summaryPlot()`
@@ -123,7 +144,7 @@ timePlot(ibi, pol = "o3", avg.time = "month")
 
 ## `timePlot()`
 ```{r, echo=T, fig.height=3, fig.width=5}
-timePlot(ibi, pol = c("pm10", "pm25"), avg.time = "day")
+timePlot(ibi, pol = c("o3", "no2"), avg.time = "day")
 ```
 
 ## `timeVariation()`
@@ -137,19 +158,19 @@ timeVariation(ibi, pol = "o3")
 library(qualR)
 
 params <- c("MP10", "MP2.5", "NOx", "VV", "DV")
-pin <- CetesbRetrieveParam(Sys.getenv("QUALAR_USER"),
-                           Sys.getenv("QUALAR_PASS"),
-                           params,
-                           "Pinheiros",
-                           "01/01/2020",
-                           "31/12/2020")
+pin_march <- cetesb_retrieve_param(Sys.getenv("QUALAR_USER"),
+                             Sys.getenv("QUALAR_PASS"),
+                             params,
+                             "Pinheiros",
+                             "01/03/2020",
+                             "31/03/2020")
 
-saveRDS(pin, file="../02_data/pin_pol_with_wind.Rds")
+saveRDS(pin_march, file=paste0(getwd(), "/results/pin_pol_with_wind.Rds"))
 ```
 
 ## `windRose()`
 ```{r, echo=T, fig.height=3, fig.width=3, warning=F}
-pin <- readRDS("../02_data/pin_pol_with_wind.Rds")
+pin <- readRDS("../results/pin_2019.rds")
 wr <- windRose(pin, ws="ws", wd="wd")
 ```
 
@@ -162,19 +183,19 @@ windRose(pin, ws="ws", wd="wd", type = "month",
 
 ## `polarPlot()`
 ```{r, echo=T,  fig.height=3, fig.width=3, warning=F }
-pp <- polarPlot(pin, pollutant = "mp2.5")
+pp <- polarPlot(pin, pollutant = "pm25")
 
 ```
 
 ## `percentileRose()`
 ```{r, echo=T, fig.height=2.5, fig.width=2.5, warning=F}
-pr <- percentileRose(pin, pollutant = "mp2.5", percentile=75,
+pr <- percentileRose(pin, pollutant = "pm25", percentile=75,
                      method = "cpf", col = "blue", smooth = T)
 ```
 
 ## `polarAnnulus()
 ```{r, echo=T, fig.height=2.5, fig.width=2.5, warning=F}
-pa <- polarAnnulus(pin, pollutant = "mp2.5", period="hour",
+pa <- polarAnnulus(pin, pollutant = "pm25", period="hour",
                    exclude.missing=F)
 ```
 
@@ -188,22 +209,23 @@ grid.arrange(wr$plot, pa$plot, pp$plot, pr$plot,
 
 ## `SelectByDate`
 ```{r, echo=T, fig.height=3, fig.width=5}
-covid <- selectByDate(ibi,
+pin_march <- readRDS("../results/pin_pol_with_wind.Rds")
+covid <- selectByDate(pin_march,
                       start="15/3/2020",
                       end="28/3/2020")
-timePlot(covid, pol = "o3")
+timePlot(covid, pol = "nox")
 ```
 
 ## `SelectByDate`
 ```{r, echo=T, fig.height=3, fig.width=5}
-ibi19 <- selectByDate(ibi, year = 2019)
-timePlot(covid, pol = "pm25")
+ibi_m <- selectByDate(ibi, month = 7:9)
+timePlot(ibi_m, pol = "pm25")
 ```
 
 ## `SelectByDate`
 ```{r, echo=T}
-ibi19_weekday <- selectByDate(ibi19, day="weekday")
-ibi19_weekend <- selectByDate(ibi19, day="weekend")
+ibi19_weekday <- selectByDate(ibi, day="weekday")
+ibi19_weekend <- selectByDate(ibi, day="weekend")
 mean(ibi19_weekday$o3, na.rm = T)
 mean(ibi19_weekend$o3, na.rm = T)
 
@@ -246,17 +268,18 @@ legend("topleft", legend=c("Weekday", "Weekend"), col=c("blue", "red"),
 ## `timeAverage`
 ```{r, echo=T, fig.height=4, fig.width=5}
 # Média diaria
-ibi19_day <- timeAverage(ibi19, avg.time = "day")
+ibi19_day <- timeAverage(ibi, avg.time = "day")
 # Média mensal
-ibi19_month <- timeAverage(ibi19, avg.time = "month")
+ibi19_month <- timeAverage(ibi, avg.time = "month")
 # Média sasonal
-ibi19_season <- timeAverage(ibi19, avg.time = "season")
+ibi19_season <- timeAverage(ibi, avg.time = "season")
 ```
 
 
 ## `splitByDate`
 ```{r, echo=T, fig.height=5, fig.width=8}
-ibi_cov <- splitByDate(ibi, dates = "1/3/2020",
+ibi20 <- readRDS("../results/ibi_2020.rds")
+ibi_cov <- splitByDate(ibi20, dates = "1/3/2020",
                        name = "situation",
                        labels = c("Before COVID", "After COVID"))
 timeVariation(ibi_cov, pol = "o3", group = "situation")
