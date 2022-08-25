@@ -299,6 +299,7 @@ str(tempk_chr)
  - `sf`: Super pacote para trabalhar com dados espaciais (shapefiles).
  - `ggplot2`: Para fazer plots legais.
  - `openair`: Para trabalhar com dados de poluição do ar.
+ - `geobr`: Baixar dados geográficos do Brasil.
  
 ## Packages everywhere
  - Para instalar pacotes usamos a função **`install.packages("nome_do_pacote")`**

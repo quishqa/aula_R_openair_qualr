@@ -18,7 +18,7 @@ saveRDS(ibi_2019, file = "results/ibi_2019.rds")
 
 pin_2019 <- cetesb_retrieve_param(Sys.getenv("QUALAR_USER"),
                                   Sys.getenv("QUALAR_PASS"),
-                                  params,
+                                  c(params, "CO"),
                                   "Pinheiros",
                                   start_date,
                                   end_date,
@@ -27,7 +27,7 @@ pin_2019 <- cetesb_retrieve_param(Sys.getenv("QUALAR_USER"),
 saveRDS(pin_2019, file = "results/pin_2019.rds")
 
 
-params <- c("MP10", "MP2.5", "NOx", "VV", "DV")
+params <- c("MP10", "MP2.5", "NOx", "VV", "DV", "NO", "NO2", "O3")
 pin <- cetesb_retrieve_param(Sys.getenv("QUALAR_USER"),
                              Sys.getenv("QUALAR_PASS"),
                              params,
