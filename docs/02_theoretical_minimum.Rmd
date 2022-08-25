@@ -257,11 +257,11 @@ tail(ar, 2)
 
 ## R: data.frame - Substituição
 ```{r, echo=T}
-# Otras canciones
-ar$names <- c("Nitrógeno", 
-              "Oxígeno",
-              "Argón", 
-              "Dióxido de carbono")
+# Em espanhol
+ar$nombres <- c("Nitrógeno", 
+                "Oxígeno",
+                "Argón", 
+                "Dióxido de carbono")
 ar
 
 ```

@@ -1,11 +1,13 @@
 ---
-title: "Minha primeira aula do **`openair`**"
+title: "Utilização dos pacotes `openair` e `qualR`"
+title: "**`openair`**"
 author: "Mario Gavidia-Calderón"
 date: "7/12/2021"
 output:
   beamer_presentation:
+    latex_engine: xelatex
     theme: "Dresden"
-    fonttheme: "structurebold"
+    colortheme: "seagull"
 ---
 
 ```{r setup, include=FALSE}
@@ -74,7 +76,7 @@ str(au_pm25)
 ```
 
 ## Lembre da data: `as.POSIXct()`
-- Temos que dizer para o R que a coluna `date` não é `chr` senão dado de data
+- Temos que dizer para o R que a coluna  que tem a data não é `chr` senão dado de data (`POSIXct`)
 - **Dica: `openair` sempre vai procurar a coluna `date`**
 ```{r, echo=TRUE}
 au_pm25$date <- as.POSIXct(
@@ -286,11 +288,6 @@ timeVariation(ibi_cov, pol = "o3", group = "situation")
 
 ```
 
-
-
-## Exemplos mais legais
-- Esta presentação foi feita seguindo estes exemplos
-- [Exemplos SP](https://github.com/quishqa/qualR_tuto/blob/main/02_data/openair_exemplos_sp.html)
 
 
 
